@@ -15,5 +15,6 @@ cp TemplateModel.txt ../build &&
 cp TemplateRepository.txt ../build &&
 cp TemplateService.txt ../build &&
 cp TemplateValidator.txt ../build &&
-cp TemplateView.txt ../build
+cp TemplateView.txt ../build &&
+cp TemplateClass.txt ../build
 rm Sprincli.jar

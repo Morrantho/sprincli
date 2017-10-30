@@ -218,19 +218,52 @@ public class Sprincli{
 			}
 		),
 		
-		new Command(
-			"package",
-			"Usage: <packageName> --Create a new package. Ex: com.project.yourApp.graphics",
-			(String arg)->{
-				String[] dirs = arg.split(".");
+		// new Command(
+		// 	"package",
+		// 	"Usage: <packageName> --Create a new package. A new folder will be created for each period found. Ex: com.project.yourApp.graphics",
+		// 	(String arg)->{
+		// 		String javaDir = srcDir+"java/";
 
-				for(String s: dirs){
-					System.out.println(s);
+		// 		for(String folder: arg.split("\\."))
+		// 			javaDir += folder+"/";			
+		// 		new File(javaDir).mkdirs();
+		// 		System.out.println("Created Package: "+javaDir);
+		// 	}
+		// ),
+
+		new Command(
+			"class",
+			"Usage: <className> --Create a new class. Packages are auto-generated when separated by periods Ex: com.project.yourApp.controllers.UserController",
+			(String arg)->{
+				String javaDir = srcDir+"java/";
+				String[] dirs  = arg.split("\\.");
+				String lastDir = dirs[dirs.length-1]; 
+
+				if(!Character.isUpperCase(lastDir.charAt(0))){
+					System.out.println("The last period must follow with an uppercase class name.");
+					return;
 				}
 
+				String pkg = arg.substring(0,arg.length()-lastDir.length()); 
 
-				// String javaDir = srcDir+"/java/"+arg;
-				// new File(javaDir).mkdirs();
+				for(int i=0;i<dirs.length-1;i++)
+					javaDir += dirs[i]+"/";
+				javaDir += dirs[dirs.length-1]+".java";
+
+				try{
+					System.out.println("DIR: "+javaDir+" PKG: "+pkg+" CLASSPATH: "+classPath);
+
+					Util.copy(new File(classPath+"TemplateClass.txt"),new File(javaDir));
+
+					// readAndReplace(javaDir,
+					// 	new String[]{"..","TemplateClass"},
+					// 	new String[]{pkg,lastDir}
+					// );
+
+					System.out.println("Created Class: "+lastDir);
+				}catch(IOException e){
+					System.out.println("Failed to create class: "+javaDir);
+				}
 			}
 		),
 
@@ -252,7 +285,7 @@ public class Sprincli{
 	static void help(){
 		System.out.println("Commands:");
 		for(Command command:commands)
-			System.out.println(command.key+" - "+command.usage);
+			System.out.println(command.key+" - "+command.usage+"\n");
 	}
 
 	// Look for previously generated project.txt
@@ -289,7 +322,7 @@ public class Sprincli{
 		for(Command command:commands){
 			if(command.key.equals(args[0])){
 				if(args.length<2){
-					System.out.println(command.usage);
+					System.out.println(command.usage+"\n");
 					return;
 				}	
 
