@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-// @RequestMapping("/")
 public class TemplateController{
 	//Member variables go here
 
@@ -27,8 +26,8 @@ public class TemplateController{
 
 	}
 	
-	// @RequestMapping("")
+	@RequestMapping("")
 	public String index(){
-		return "Hello World";
+		return "index";
 	}	
 }

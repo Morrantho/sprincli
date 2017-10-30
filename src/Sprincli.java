@@ -54,12 +54,14 @@ public class Sprincli{
 				String pom     = dir+"/"+arg+"/pom.xml";
 				String appProp = srcDir+"/resources/application.properties";
 				String msgProp = srcDir+"/resources/messages.properties";
+				String view = srcDir+"/webapp/WEB-INF/index.jsp";
 
 				try{
 					Util.copy(new File(classPath+"Startup.txt"),new File(startup));
 					Util.copy(new File(classPath+"pom.txt"),new File(pom));
 					Util.copy(new File(classPath+"application.properties"),new File(appProp));
-					Util.copy(new File(classPath+"messages.properties"),new File(msgProp));					
+					Util.copy(new File(classPath+"messages.properties"),new File(msgProp));
+					Util.copy(new File(classPath+"TemplateView.txt"),new File(view));
 				}catch(IOException e){
 					System.out.println("Failed to read file: ");
 				}
@@ -216,6 +218,22 @@ public class Sprincli{
 			}
 		),
 		
+		new Command(
+			"package",
+			"Usage: <packageName> --Create a new package. Ex: com.project.yourApp.graphics",
+			(String arg)->{
+				String[] dirs = arg.split(".");
+
+				for(String s: dirs){
+					System.out.println(s);
+				}
+
+
+				// String javaDir = srcDir+"/java/"+arg;
+				// new File(javaDir).mkdirs();
+			}
+		),
+
 		//Doesnt work yet.
 		new Command(
 			"run",
@@ -261,8 +279,8 @@ public class Sprincli{
 		for(int i=0;i<replaces.length;i++)
 			text = text.replace(replaces[i],replaceWith[i]);
 			
-			Util.writeToFile(fil,text);			
-		}	
+		Util.writeToFile(fil,text);			
+	}	
 		
 	public static void main(String[] args){
 		if(args.length<1){help(); return;}
