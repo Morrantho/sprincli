@@ -3,6 +3,7 @@
 ### Features
 
 * Generate Project
+* Generate Packages
 * Generate Models
 * Generate Views
 * Generate Controllers
@@ -14,17 +15,18 @@
 
 ### Great, how do I use it?
 
-Include Sprincli.jar in your system path.
-Heres a Unix example:
+On Unix systems, add a new variable to your etc/bash.bashrc
 
-export sprincli=/path/to/Sprincli.jar
+Ex: sprincli="java -jar /home/yourProfile/Documents/sprincli/build/Sprincli.jar"
+
+Now you can access it directly in terminal with: $sprincli <commandhere>
 
 On windows, add a new system variable, including Sprincli.jar
 
 ### Now what?
 
-java -jar $yourPathVariable
+Run $sprincli in your terminal for a list of commands.
 
-This will give you a list of commands. Once you run new,
-change directory to your new project and run more
-commands.
+$sprincli new <projectName> will create a new spring boot application. This must be done before you can use any other commands. Then cd into the project and perform more commands.
+
+The run command doesnt work yet. Use <code>mvn spring-boot:run</code> at the root of your project for the time being. You'll need maven of course.
