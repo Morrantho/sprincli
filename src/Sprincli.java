@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.lang.Runtime;
 import java.lang.Process;
 
+import java.util.ArrayList;
+
 //TODO:
 // Generate Views
 
@@ -314,7 +316,7 @@ public class Sprincli{
 			
 		Util.writeToFile(fil,text);			
 	}	
-		
+
 	public static void main(String[] args){
 		if(args.length<1){help(); return;}
 		dir = System.getProperty("user.dir");
