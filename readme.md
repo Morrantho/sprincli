@@ -21,12 +21,10 @@ Ex: sprincli="java -jar /home/yourProfile/Documents/sprincli/build/Sprincli.jar"
 
 Now you can access it directly in terminal with: $sprincli <commandhere>
 
-On windows, add a new system variable, including Sprincli.jar
-
 ### Now what?
 
 Run $sprincli in your terminal for a list of commands.
 
-$sprincli new <projectName> will create a new spring boot application. This must be done before you can use any other commands. Then cd into the project and perform more commands.
+$sprincli new <projectName> will create a new spring boot application. This must be done before you can use any other commands. After running new, cd into the project to perform more commands. If you cant see the pom.xml, you're in the wrong folder.
 
-The run command doesnt work yet. Use <code>mvn spring-boot:run</code> at the root of your project for the time being. You'll need maven of course.
+Use <code>mvn spring-boot:run</code> at the root of your project to launch your spring server.

@@ -1,4 +1,4 @@
-package com.project..validations;
+package com.project..validators;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

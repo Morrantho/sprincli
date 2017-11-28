@@ -218,70 +218,7 @@ public class Sprincli{
 					System.out.println("validator creation failed: "+arg);
 				}
 			}
-		),
-		
-		// new Command(
-		// 	"package",
-		// 	"Usage: <packageName> --Create a new package. A new folder will be created for each period found. Ex: com.project.yourApp.graphics",
-		// 	(String arg)->{
-		// 		String javaDir = srcDir+"java/";
-
-		// 		for(String folder: arg.split("\\."))
-		// 			javaDir += folder+"/";			
-		// 		new File(javaDir).mkdirs();
-		// 		System.out.println("Created Package: "+javaDir);
-		// 	}
-		// ),
-
-		new Command(
-			"class",
-			"Usage: <className> --Create a new class. Packages are auto-generated when separated by periods Ex: com.project.yourApp.controllers.UserController",
-			(String arg)->{
-				String javaDir = srcDir+"java/";
-				String[] dirs  = arg.split("\\.");
-				String lastDir = dirs[dirs.length-1]; 
-
-				if(!Character.isUpperCase(lastDir.charAt(0))){
-					System.out.println("The last period must follow with an uppercase class name.");
-					return;
-				}
-
-				String pkg = arg.substring(0,arg.length()-lastDir.length()); 
-
-				for(int i=0;i<dirs.length-1;i++)
-					javaDir += dirs[i]+"/";
-				javaDir += dirs[dirs.length-1]+".java";
-
-				try{
-					System.out.println("DIR: "+javaDir+" PKG: "+pkg+" CLASSPATH: "+classPath);
-
-					Util.copy(new File(classPath+"TemplateClass.txt"),new File(javaDir));
-
-					// readAndReplace(javaDir,
-					// 	new String[]{"..","TemplateClass"},
-					// 	new String[]{pkg,lastDir}
-					// );
-
-					System.out.println("Created Class: "+lastDir);
-				}catch(IOException e){
-					System.out.println("Failed to create class: "+javaDir);
-				}
-			}
-		),
-
-		//Doesnt work yet.
-		new Command(
-			"run",
-			"Usage: <arg> --Run a Spring Boot App. Argument required, but ignored.",
-			(String arg)->{
-				try{
-					Runtime runtime = Runtime.getRuntime();
-					Process p = runtime.exec("mvn spring-boot:run");
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-			}
-		),
+		)
 	};
 
 	static void help(){
