@@ -28,3 +28,9 @@ Run $sprincli in your terminal for a list of commands.
 $sprincli new <projectName> will create a new spring boot application. This must be done before you can use any other commands. After running new, cd into the project to perform more commands. If you cant see the pom.xml, you're in the wrong folder.
 
 Use <code>mvn spring-boot:run</code> at the root of your project to launch your spring server.
+
+### Deployment Steps:
+
+* uncomment the build section at the bottom of your pom.xml
+* mvn clean package
+* run your war file via java -jar yourProject.war
