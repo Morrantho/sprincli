@@ -88,12 +88,20 @@ public class Sprincli{
 				},new String[]{
 					"com.project."+arg,"class "+arg+"Application",".run("+arg
 				});
+
 				// pom.xml:
 				readAndReplace(pom,new String[]{
 					"<groupId>com.example","<artifactId>myproject"
 				},new String[]{
 					"<groupId>com.project."+arg,"<artifactId>"+arg
 				});
+				// Main Class for deployment:
+				readAndReplace(pom,new String[]{
+					"<mainClass>com.project."
+				},new String[]{
+					"<mainClass>com.project."+arg+"."+arg+"Application"
+				});
+				
 				// Save project name to determine future project path
 				Util.writeToFile(dir+"/"+arg+"/project.txt",dir+"/"+arg);
 			}
