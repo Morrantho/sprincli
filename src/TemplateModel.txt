@@ -59,11 +59,8 @@ public class TemplateModel{
 	}
 	
 	// Setters and Getters go here
-
-	public TemplateModel(){}
 	
 	public TemplateModel(){
-
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
 	}

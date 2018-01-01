@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Command{
 	public String key;
 	public String usage;

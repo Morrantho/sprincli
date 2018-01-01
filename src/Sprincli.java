@@ -7,9 +7,6 @@ import java.lang.Process;
 
 import java.util.ArrayList;
 
-//TODO:
-// Generate Views
-
 public class Sprincli{
 	static String app    = "";
 	static String dir    = "";
@@ -18,7 +15,26 @@ public class Sprincli{
 	static String srcDir = "";
 	static String pkgDir = "";
 	static String dest   = "";
-	static String classPath = getPath(); // get execution directory
+	static String classPath = getPath(); // get execution directory	
+	
+	private static void parse(String dir,String arg,String copy,boolean shouldRepl,String ext){
+		String newFile = dir+"/"+arg+ext;
+
+		try{
+			Util.copy(new File(classPath+copy+".txt"),new File(newFile));
+
+			if(shouldRepl){
+				readAndReplace(newFile,
+					new String[]{"..",copy},
+					new String[]{"."+app+".",arg}
+				);
+			}
+
+			System.out.println("Created file: "+newFile);			
+		}catch(IOException e){
+			System.out.println("Failed to copy file: "+copy+".txt");
+		}
+	}
 
 	static Command[] commands = {
 		new Command(
@@ -32,7 +48,6 @@ public class Sprincli{
 				dest   = srcDir+pkgDir;
 
 				String[] directories = {
-					dest+"/config",
 					dest+"/models",
 					dest+"/controllers",
 					dest+"/repositories",
@@ -85,23 +100,25 @@ public class Sprincli{
 		),
 
 		new Command(
+			"login",
+			"Usage: <routerName> --Creates user model, service, repository and controller.",
+			(String arg)->{
+				parse(dest+"/models","User","TemplateUser",true,".java");
+				parse(dest+"/services","UserService","TemplateUserService",true,".java");
+				parse(dest+"/repositories","UserRepository","TemplateUserRepository",true,".java");
+				parse(dest+"/controllers","RouteController","TemplateRouteController",true,".java");
+				parse(dest+"/controllers","UserController","TemplateUserController",true,".java");
+
+				parse(srcDir+"webapp/WEB-INF","dashboard","dashboard",false,".jsp");
+				parse(srcDir+"webapp/WEB-INF","newUser","newUser",false,".jsp");
+			}
+		),
+
+		new Command(
 			"model",
 			"Usage: <modelName> --Creates a new Model",
 			(String arg)->{
-				String model = dest+"/models/"+arg+".java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateModel.txt"),new File(model));
-
-					readAndReplace(model,
-						new String[]{"..","TemplateModel"},
-						new String[]{"."+app+".",arg}
-					);
-
-					System.out.println("Created Model: "+arg);
-				}catch(IOException e){
-					System.out.println("Model creation failed: "+arg);
-				}
+				parse(dest+"/models",arg,"TemplateModel",true,".java");
 			}
 		),
 
@@ -109,20 +126,7 @@ public class Sprincli{
 			"controller",
 			"Usage: <controllerName> --Creates a new Controller",
 			(String arg)->{
-				String controller = dest+"/controllers/"+arg+".java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateController.txt"),new File(controller));
-
-					readAndReplace(controller,
-						new String[]{"..","TemplateController"},
-						new String[]{"."+app+".",arg}
-					);
-
-					System.out.println("Created controller: "+arg);
-				}catch(IOException e){
-					System.out.println("Controller creation failed: "+arg);
-				}
+				parse(dest+"/controllers",arg,"TemplateController",true,".java");
 			}
 		),
 
@@ -130,14 +134,7 @@ public class Sprincli{
 			"view",
 			"Usage: <viewName> --Creates a new view / .jsp",
 			(String arg)->{
-				String view = srcDir+"/webapp/WEB-INF/"+arg+".jsp";
-
-				try{
-					Util.copy(new File(classPath+"TemplateView.txt"),new File(view));
-					System.out.println("Created view: "+arg);
-				}catch(IOException e){
-					System.out.println("View creation failed: "+arg);
-				}
+				parse(srcDir+"/webapp/WEB-INF",arg,"TemplateView",false,".jsp");
 			}
 		),
 
@@ -145,20 +142,7 @@ public class Sprincli{
 			"service",
 			"Usage: <serviceName> --Creates a new Service",
 			(String arg)->{
-				String service = dest+"/services/"+arg+".java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateService.txt"),new File(service));
-
-					readAndReplace(service,
-						new String[]{"..","TemplateService"},
-						new String[]{"."+app+".",arg}
-					);
-
-					System.out.println("Created Service: "+arg);
-				}catch(IOException e){
-					System.out.println("Service creation failed: "+arg);
-				}
+				parse(dest+"/services",arg,"TemplateService",true,".java");
 			}
 		),
 
@@ -166,36 +150,7 @@ public class Sprincli{
 			"repository",
 			"Usage: <viewName> --Creates a new Repository",
 			(String arg)->{
-				String repository = dest+"/repositories/"+arg+".java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateRepository.txt"),new File(repository));
-
-					readAndReplace(repository,
-						new String[]{"..","TemplateRepository"},
-						new String[]{"."+app+".",arg}
-					);
-
-					System.out.println("Created Repository: "+arg);
-				}catch(IOException e){
-					System.out.println("Repository creation failed: "+arg);
-				}
-			}
-		),
-
-		new Command(
-			"config",
-			"Usage: <configName> --Creates a new WebSecurityConfig. Argument is ignored, but required",
-			(String arg)->{
-				String config = dest+"/config/WebSecurityConfig.java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateConfig.txt"),new File(config));
-					readAndReplace(config,new String[]{".."},new String[]{"."+app+"."});
-					System.out.println("Created config: "+arg);
-				}catch(IOException e){
-					System.out.println("Config creation failed: "+arg);
-				}
+				parse(dest+"/repositories",arg,"TemplateRepository",true,".java");
 			}
 		),
 
@@ -203,28 +158,15 @@ public class Sprincli{
 			"validator",
 			"Usage: <validatorName> --Creates a new Validator.",
 			(String arg)->{
-				String validator = dest+"/validators/"+arg+".java";
-
-				try{
-					Util.copy(new File(classPath+"TemplateValidator.txt"),new File(validator));
-
-					readAndReplace(validator,
-						new String[]{"..","TemplateValidator"},
-						new String[]{"."+app+".",arg}
-					);
-
-					System.out.println("Created validator: "+arg);
-				}catch(IOException e){
-					System.out.println("validator creation failed: "+arg);
-				}
+				parse(dest+"/validators",arg,"TemplateValidator",true,".java");
 			}
-		)
+		),
 	};
 
 	static void help(){
 		System.out.println("Commands:");
 		for(Command command:commands)
-			System.out.println(command.key+" - "+command.usage+"\n");
+			System.out.println(command.key+" - "+command.usage);
 	}
 
 	// Look for previously generated project.txt
@@ -261,7 +203,7 @@ public class Sprincli{
 		for(Command command:commands){
 			if(command.key.equals(args[0])){
 				if(args.length<2){
-					System.out.println(command.usage+"\n");
+					System.out.println(command.usage);
 					return;
 				}	
 
