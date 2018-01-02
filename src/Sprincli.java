@@ -117,7 +117,7 @@ public class Sprincli{
 				// Save project name to determine future project path
 				Util.writeToFile(dir+"/"+arg+"/project.txt",dir+"/"+arg);
 			
-				System.out.println("Project created successfully. Run: mvn spring-boot:run in your root directory to launch your server.");
+				System.out.println("Project created successfully. Run: sprincli run in your root directory to launch your server.");
 			}
 		),
 
