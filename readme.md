@@ -33,3 +33,4 @@ sprincli new <projectName> will create a new spring boot application in your cur
 ### Deployment Steps:
 * Enter root directory and run: mvn clean package
 * Enter target directory and run your war file: java -jar yourProject.war
+* If your project builds and runs via the .war file, proceed with FTP'ing it to your web server.

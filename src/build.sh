@@ -2,7 +2,8 @@ javac Sprincli.java
 jar cvfe Sprincli.jar Sprincli *.class
 chmod +x Sprincli.jar
 
-cd .. && mkdir build
+cd .. && rm -rf build
+mkdir build
 cd src
 cp Sprincli.jar ../build &&
 cp application.properties ../build &&

@@ -28,7 +28,7 @@ public class RouteController{
 	public RouteController(UserService us){
 		this.us=us;
 	}
-	// If route not exists, redirect to login if in session, else dashboard.
+	// If route not exists, redirect to login if not in session, else dashboard.
 	@RequestMapping("")
 	public String index(HttpServletRequest req,HttpSession s){		
 		if(!us.isValid(s)){
