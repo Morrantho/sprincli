@@ -29,8 +29,8 @@ You need to be here at all times to run sprincli commands.
 
 ### Unix / Linux / Mac Install:
 
-* Add an alias anywhere in your .bashrc. Its in your
-home directory, but hidden. Run: ls -a to see it.
+* Add an alias anywhere in your .bashrc. To get there, type <code>cd</code>
+anywhere in a terminal and press enter. Its hidden, Run: <code>ls -a</code> to see it. If its not there, create it with <code>touch .bashrc</code>.
 Open it with a text editor and add an alias, replacing the
 example directory with the location of where you placed sprincli
 on your pc. It must end with <code>Sprincli.jar</code> inside the <code>build</code> folder.
@@ -59,7 +59,12 @@ the alias we created.
 
 #### Git Bash:
 
-Coming soon.
+Same as UNIX instructions.
+
+* Open a git bash terminal.
+* <code>cd</code> and press enter.
+* <code>touch .bashrc</code> if you don't have one already.
+* Proceed with UNIX instructions.
 
 ### Using Sprincli:
 
