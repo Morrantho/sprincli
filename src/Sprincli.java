@@ -3,12 +3,14 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.InputStream;
 
 import java.lang.Runtime;
 import java.lang.Process;
 
 import java.util.ArrayList;
 import java.lang.InterruptedException;
+import java.util.Scanner;
 
 public class Sprincli{
 	static String app    = "";
@@ -143,15 +145,14 @@ public class Sprincli{
 				// Save project name to determine future project path
 				Util.writeToFile(d,e);
 			
-				System.out.println("Project created successfully. Run: sprincli run in your root directory to launch your server.");
+				System.out.println("\nProject created successfully. Run: sprincli run in your root directory to launch your server.");
 			}
 		),
 
 		new Command(
 			"run",
 			"Usage: <> --Runs your server.",
-			(String ...args)->{
-				execute("dir");
+			(String ...args)->{	
 				execute("mvn spring-boot:run");
 			}
 		),
@@ -187,7 +188,6 @@ public class Sprincli{
 				parse(views,"dashboard","dashboard",false,".jsp");
 				parse(views,"newUser","newUser",false,".jsp");
 
-				
 				// Uncomment JPA + MySQL Dependencies
 				readAndReplace(pom,new String[]{"<!--","-->"},new String[]{"",""});
 				// Uncomment MySQL configuration
@@ -281,6 +281,8 @@ public class Sprincli{
 	};
 
 	static void execute(String cmd){
+		if(Util.isWindows()){cmd = "cmd /c "+cmd;} // exec() is OS dependant.
+
 		try{				
 			Process p = Runtime.getRuntime().exec(cmd);
 			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -293,8 +295,8 @@ public class Sprincli{
 			int exitVal = p.waitFor();
 			System.out.println("Error: "+exitVal);
 		}
-		catch(IOException e1){}
-		catch(InterruptedException e2){}		
+		catch(IOException e1){System.out.println(e1);}
+		catch(InterruptedException e2){System.out.println(e2);}		
 	}
 
 	static void help(){

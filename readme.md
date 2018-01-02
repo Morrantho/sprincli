@@ -18,28 +18,48 @@
 ## Notes: 
 
 * Apache Maven is required to use some of Sprincli's commands,
-so if something doesn't work, that could be why.
+so if something doesn't work, make sure it's installed.
 
-* When referring to "root" directory, you must be able to see your project's "pom.xml", otherwise you're in the wrong folder.
+* When referring to <code>root</code> directory, you must be able to see your project's <code>pom.xml</code>, otherwise you're in the wrong folder.
+You need to be here at all times to run sprincli commands.
 
 ### Known Issues:
 
-* Windows users will have to use Git Bash for Sprincli to work.
+* Let me know.
 
-* <code>sprincli run</code> and <code>sprincli deploy</code>
-don't work for Windows users yet.
-
-### One time setup:
+### Unix / Linux / Mac Install:
 
 * Add an alias anywhere in your .bashrc. Its in your
 home directory, but hidden. Run: ls -a to see it.
 Open it with a text editor and add an alias, replacing the
 example directory with the location of where you placed sprincli
-on your pc. It must end with "Sprincli.jar" inside the "build" folder.
+on your pc. It must end with <code>Sprincli.jar</code> inside the <code>build</code> folder.
 
 Example: <code>alias sprincli="java -jar /home/yourProfile/Documents/sprincli/build/Sprincli.jar"</code>
 
 * Reload your .bashrc with: <code>source .bashrc</code>
+
+### Windows Install:
+
+#### Command Prompt:
+
+* Make a shortcut to cmd.exe on your desktop.
+Right-click it, goto Properties > Shortcut.
+
+* Add this onto <code>Target:</code> <code>/K C:\Users\yourName\Documents\doskey.cmd</code>
+
+* Create doskey.cmd in that spot above.
+
+* Add this to doskey.cmd: <code>DOSKEY sprincli=java -jar C:\Users\yourName\Documents\code\Java\sprincli\build\Sprincli.jar $1 $2
+</code> replacing the directory with your own. Save and close everything.
+
+* Reopen cmd prompt from your desktop shortcut. Run: <code>sprincli</code>
+to verify it works. You MUST use the shortcut you created as it points to
+the alias we created.
+
+#### Git Bash:
+
+Coming soon.
 
 ### Using Sprincli:
 
