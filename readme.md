@@ -27,19 +27,19 @@ Open it with a text editor and add an alias, replacing the
 example directory with the location of where you placed sprincli
 on your pc. It must end with "Sprincli.jar" inside the "build" folder.
 
-Example: alias sprincli="java -jar /home/yourProfile/Documents/sprincli/build/Sprincli.jar"
+Example: <code>alias sprincli="java -jar /home/yourProfile/Documents/sprincli/build/Sprincli.jar"</code>
 
-* Reload your .bashrc with: source .bashrc
+* Reload your .bashrc with: <code>source .bashrc</code>
 
 ### Using Sprincli:
-* Run: "sprincli" in your terminal for a list of commands.
+* Run: <code>sprincli</code> in your terminal for a list of commands.
 
-sprincli new <projectName> will create a new spring boot application in your current directory. This must be done before you can use any other commands. After running new, cd into the project. You are now in your project's "root" directory.
+<code>sprincli new yourProject</projectName> will create a new spring boot application in your current directory. This must be done before you can use any other commands. After running new, cd into the project. You are now in your project's "root" directory.
 
-* Run <code>mvn spring-boot:run</code> in your root directory to run your server.
+* Run: <code>sprincli run</code> in your root directory to run your server.
 
 ### Deployment Steps:
-* Enter root directory and run: sprincli deploy
-* Enter target folder and run: java -jar yourProject.war
+* Enter root directory and run: <code>sprincli deploy</code>
+* Enter target folder and run: <code>java -jar yourProject.war</code>
 * Once you've verified it runs successfully, FTP the .war file
 or push to git and clone the repo on your server.
