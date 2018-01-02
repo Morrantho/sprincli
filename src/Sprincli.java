@@ -23,6 +23,12 @@ public class Sprincli{
 	private static void parse(String dir,String arg,String copy,boolean shouldRepl,String ext){
 		String newFile = dir+"/"+arg+ext;
 
+		if(Util.isWindows()){
+			newFile = Util.toWindows(newFile);
+			classPath = Util.toWindows(classPath)+"\\";
+			classPath = classPath.substring(1,classPath.length()-1);
+		}
+
 		try{
 			Util.copy(new File(classPath+copy+".txt"),new File(newFile));
 
@@ -54,6 +60,7 @@ public class Sprincli{
 				}
 				String arg = args[1];
 				System.out.println("Initializing Project...");
+
 				root   = dir+"/"+arg;
 				srcDir = root+"/src/main/";
 				pkgDir = "java/com/project/"+arg;
@@ -73,6 +80,9 @@ public class Sprincli{
 				};
 
 				for(String directory:directories){
+					if(Util.isWindows())
+						directory = Util.toWindows(directory);
+
 					System.out.println("Creating directory: "+directory);
 					File d = new File(directory);
 					d.mkdirs();
@@ -84,6 +94,14 @@ public class Sprincli{
 				String appProp = srcDir+"/resources/application.properties";
 				String msgProp = srcDir+"/resources/messages.properties";
 				String view = srcDir+"/webapp/WEB-INF/index.jsp";
+
+				if(Util.isWindows()){
+					startup = Util.toWindows(startup);
+					pom = Util.toWindows(pom);
+					appProp = Util.toWindows(appProp);
+					msgProp = Util.toWindows(msgProp);
+					view = Util.toWindows(view);
+				}
 
 				try{
 					Util.copy(new File(classPath+"Startup.txt"),new File(startup));
@@ -114,8 +132,16 @@ public class Sprincli{
 					"<mainClass>com.project."+arg+"."+arg+"Application"
 				});
 				
+				String d = dir+"/"+arg+"/project.txt";
+				String e = dir+"/"+arg;
+
+				if(Util.isWindows()){
+					d = Util.toWindows(d);
+					e = Util.toWindows(e);
+				}
+
 				// Save project name to determine future project path
-				Util.writeToFile(dir+"/"+arg+"/project.txt",dir+"/"+arg);
+				Util.writeToFile(d,e);
 			
 				System.out.println("Project created successfully. Run: sprincli run in your root directory to launch your server.");
 			}
@@ -125,6 +151,7 @@ public class Sprincli{
 			"run",
 			"Usage: <> --Runs your server.",
 			(String ...args)->{
+				execute("dir");
 				execute("mvn spring-boot:run");
 			}
 		),
@@ -133,21 +160,36 @@ public class Sprincli{
 			"login",
 			"Usage: <> --Creates a basic login and registration with BCrypt.",
 			(String ...args)->{
-				parse(dest+"/models","User","TemplateUser",true,".java");
-				parse(dest+"/services","UserService","TemplateUserService",true,".java");
-				parse(dest+"/repositories","UserRepository","TemplateUserRepository",true,".java");
-				parse(dest+"/controllers","RouteController","TemplateRouteController",true,".java");
-				parse(dest+"/controllers","UserController","TemplateUserController",true,".java");
+				String models   = dest+"/models";
+				String services = dest+"/services";
+				String repos    = dest+"/repositories";
+				String cont     = dest+"/controllers";
+				String views    = srcDir+"webapp/WEB-INF";
+				String pom      = dir+"/pom.xml";
+				String props    = dir+"/src/main/resources/application.properties";
 
-				parse(srcDir+"webapp/WEB-INF","dashboard","dashboard",false,".jsp");
-				parse(srcDir+"webapp/WEB-INF","newUser","newUser",false,".jsp");
+				if(Util.isWindows()){
+					models = Util.toWindows(models);
+					services = Util.toWindows(services);
+					repos = Util.toWindows(repos);
+					cont = Util.toWindows(cont);
+					views = Util.toWindows(views);
+					pom = Util.toWindows(pom);
+					props = Util.toWindows(props);
+				}
 
-				String pom = dir+"/pom.xml";
-				String props = dir+"/src/main/resources/application.properties";
+				parse(models,"User","TemplateUser",true,".java");
+				parse(services,"UserService","TemplateUserService",true,".java");
+				parse(repos,"UserRepository","TemplateUserRepository",true,".java");
+				parse(cont,"RouteController","TemplateRouteController",true,".java");
+				parse(cont,"UserController","TemplateUserController",true,".java");
+
+				parse(views,"dashboard","dashboard",false,".jsp");
+				parse(views,"newUser","newUser",false,".jsp");
+
 				
 				// Uncomment JPA + MySQL Dependencies
 				readAndReplace(pom,new String[]{"<!--","-->"},new String[]{"",""});
-
 				// Uncomment MySQL configuration
 				readAndReplace(props,new String[]{"#"},new String[]{""});
 				
@@ -161,7 +203,11 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a model name."); return;}
 				String arg = args[1];
-				parse(dest+"/models",arg,"TemplateModel",true,".java");
+				String models = dest+"/models";
+
+				if(Util.isWindows()) models = Util.toWindows(models);
+
+				parse(models,arg,"TemplateModel",true,".java");
 			}
 		),
 
@@ -171,7 +217,9 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a controller name."); return;}
 				String arg = args[1];
-				parse(dest+"/controllers",arg,"TemplateController",true,".java");
+				String cont = dest+"/controllers";
+				if(Util.isWindows()) cont = Util.toWindows(cont);
+				parse(cont,arg,"TemplateController",true,".java");
 			}
 		),
 
@@ -181,7 +229,9 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a view name"); return;}
 				String arg = args[1];
-				parse(srcDir+"/webapp/WEB-INF",arg,"TemplateView",false,".jsp");
+				String views = srcDir+"/webapp/WEB-INF";
+				if(Util.isWindows()) views = Util.toWindows(views);
+				parse(views,arg,"TemplateView",false,".jsp");
 			}
 		),
 
@@ -191,7 +241,9 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a service name"); return;}
 				String arg = args[1];
-				parse(dest+"/services",arg,"TemplateService",true,".java");
+				String svc = dest+"/services";
+				if(Util.isWindows()) svc = Util.toWindows(svc);
+				parse(svc,arg,"TemplateService",true,".java");
 			}
 		),
 
@@ -201,7 +253,9 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a repositoryName"); return;}
 				String arg = args[1];
-				parse(dest+"/repositories",arg,"TemplateRepository",true,".java");
+				String repos = dest+"/repositories";
+				if(Util.isWindows()) repos = Util.toWindows(repos);
+				parse(repos,arg,"TemplateRepository",true,".java");
 			}
 		),
 
@@ -211,7 +265,9 @@ public class Sprincli{
 			(String ...args)->{
 				if(args.length < 2){System.out.println("Supply a validator name."); return;}
 				String arg = args[1];
-				parse(dest+"/validators",arg,"TemplateValidator",true,".java");
+				String vals = dest+"/validators";
+				if(Util.isWindows()) vals = Util.toWindows(vals);
+				parse(vals,arg,"TemplateValidator",true,".java");
 			}
 		),
 
@@ -280,11 +336,6 @@ public class Sprincli{
 
 		for(Command command:commands){
 			if(command.key.equals(args[0])){
-				// if(args.length<2){
-				// 	System.out.println(command.usage);
-				// 	return;
-				// }	
-
 				if(!command.key.equals("new") && !isProject()){
 					System.out.println("project.txt not found. Navigate to your project directory or create a project with 'new' before using: "+command.key);
 					return; 
@@ -294,6 +345,17 @@ public class Sprincli{
 					srcDir = root+"/src/main/";
 					pkgDir = "java/com/project/"+app;
 					dest   = srcDir+pkgDir;
+
+					if(Util.isWindows()){
+						root = Util.toWindows(root);
+						app = Util.toWindows(app);
+						app = root.substring(root.lastIndexOf("\\")+1,root.length());
+						srcDir = Util.toWindows(srcDir);
+						pkgDir = "java\\com\\project\\"+app;
+						pkgDir = Util.toWindows(pkgDir);
+						dest = Util.toWindows(dest);
+						dest = srcDir+pkgDir;
+					}
 				}
 				command.event.call(args);
 				return;

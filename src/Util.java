@@ -19,10 +19,14 @@ public class Util{
 	static BufferedWriter bw;
 	static String line = "";
 	static String text = "";
-
+	static String OS = System.getProperty("os.name").toLowerCase();
+	
 	public static void copy(File source,File dest) throws IOException{
 		FileChannel inputChannel = null;
 		FileChannel outputChannel = null;
+
+		System.out.println("Creating file: "+dest);
+
 		try {
 			inputChannel = new FileInputStream(source).getChannel();
 			outputChannel = new FileOutputStream(dest).getChannel();
@@ -31,6 +35,15 @@ public class Util{
 			inputChannel.close();
 			outputChannel.close();
 		}
+	}
+
+	public static String toWindows(String str){
+		String s = str.replace("/","\\");
+		return s;
+	}
+
+	public static boolean isWindows() {
+		return (OS.indexOf("win") >= 0);
 	}
 
 	public static void openFile(String dir){
@@ -81,7 +94,9 @@ public class Util{
 	    if (classResource == null) return null; // cannot find class resource
 
 	    final String url = classResource.toString();
-	    final String suffix = c.getCanonicalName().replace('.', '/') + ".class";
+	    String suffix = c.getCanonicalName().replace('.', '/') + ".class";
+
+	    // if(Util.isWindows()) suffix = Util.toWindows(suffix);
 	    if (!url.endsWith(suffix)) return null; // weird URL
 
 	    // strip the class's path from the URL string
