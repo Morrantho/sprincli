@@ -61,6 +61,7 @@ public class Sprincli{
 					return;
 				}
 				String arg = args[1];
+				app = arg;
 				System.out.println("Initializing Project...");
 
 				root   = dir+"/"+arg;
@@ -93,9 +94,11 @@ public class Sprincli{
 				// Pre-Locate these file destinations:
 				String startup = dest+"/"+arg+"Application.java";
 				String pom     = dir+"/"+arg+"/pom.xml";
+				String router  = dest+"/controllers/Router.java";
 				String appProp = srcDir+"/resources/application.properties";
 				String msgProp = srcDir+"/resources/messages.properties";
-				String view = srcDir+"/webapp/WEB-INF/index.jsp";
+				String view    = srcDir+"/webapp/WEB-INF/index.jsp";
+				String stat    = srcDir+"/resources/static/";
 
 				if(Util.isWindows()){
 					startup = Util.toWindows(startup);
@@ -111,6 +114,11 @@ public class Sprincli{
 					Util.copy(new File(classPath+"application.properties"),new File(appProp));
 					Util.copy(new File(classPath+"messages.properties"),new File(msgProp));
 					Util.copy(new File(classPath+"TemplateView.txt"),new File(view));
+					// Create first controller.
+					parse(dest+"/controllers","Router","TemplateRouter",true,".java");
+					
+					Util.writeToFile(stat+"css/style.css","");
+					Util.writeToFile(stat+"js/main.js","");
 				}catch(IOException e){
 					System.out.println("Failed to read file: ");
 				}

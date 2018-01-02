@@ -18,6 +18,7 @@ cp TemplateService.txt ../build &&
 cp TemplateValidator.txt ../build &&
 cp TemplateView.txt ../build &&
 cp TemplateClass.txt ../build &&
+cp TemplateRouter.txt ../build &&
 
 cp TemplateRouteController.txt ../build &&
 cp TemplateUser.txt ../build &&

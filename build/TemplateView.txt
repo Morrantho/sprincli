@@ -10,10 +10,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Index</title>
-		<!-- <link rel="stylesheet" type="text/css" href="/css/style.css"> -->
+		<link rel="stylesheet" type="text/css" href="/css/style.css">	
+		<script src="/js/main.js"></script>
 	</head>
 
 	<body>
-		<div>Its your turn to work.</div>
+		<h1>Its your turn to work.</h1>
 	</body>
 </html>

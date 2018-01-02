@@ -26,8 +26,8 @@ public class TemplateController{
 
 	}
 	
-	@RequestMapping("")
-	public String index(){
-		return "index";
+	@RequestMapping("yourRoute")
+	public String yourMethod(){
+		return "yourView";
 	}	
 }

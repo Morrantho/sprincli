@@ -19,15 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class TemplateController{
-	//Member variables go here
-
-	public TemplateController(){
+@RequestMapping("/*") // Wildcard all routes.
+public class TemplateRouter{
+	public Router(){
 
 	}
-	
-	@RequestMapping("yourRoute")
-	public String yourMethod(){
-		return "yourView";
-	}	
+
+	@RequestMapping("index")
+	public String index(){
+		return "index";
+	}
+
+	@RequestMapping("")
+	public String redirect(HttpServletRequest req){		
+		String url = req.getRequestURI().toString();
+		return "redirect:/index";
+	}		
 }
