@@ -9,8 +9,16 @@
 * Generate Repositories
 * Generate Services
 * Generate Login + Registration
+* Project Deployment
+* Run server
+* Maven Support
 
-## Note: When referring to "root" directory, you must be able to see your project's "pom.xml", otherwise you're in the wrong folder.
+## Notes: 
+
+* Apache Maven is required to use some of Sprincli's commands,
+so if something doesn't work, that could be why.
+
+* When referring to "root" directory, you must be able to see your project's "pom.xml", otherwise you're in the wrong folder.
 
 ### One time setup:
 * Add an alias anywhere in your .bashrc. Its in your
