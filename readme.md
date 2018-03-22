@@ -25,7 +25,10 @@ You need to be here at all times to run sprincli commands.
 
 ### Known Issues:
 
-* Let me know.
+* Windows:
+* When <code>sprincli login</code> is run on Windows, it causes a NullPointer in Util.Copy().
+
+* Mac / Linux:
 
 ### Unix / Linux / Mac Install:
 
